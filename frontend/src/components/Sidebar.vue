@@ -4,7 +4,7 @@
 			<div class="profile">
 				<div v-if="!authStore.isLoading" class="flex items-center gap-3 flex-grow">
 					<Avatar class="w-[50px] h-[50px]" />
-					<RouterLink :to="{ name: 'home' }" class="fullname flex-grow">{{ authStore.user.name }}</RouterLink>
+					<RouterLink :to="{ name: 'home' }" class="fullname flex-grow">{{ authStore.user?.name }}</RouterLink>
 
 				</div>
 				<div class="btns flex items-center gap-2">
@@ -18,15 +18,13 @@
 				<input placeholder="Search contacts..." class="w-full rounded-md bg-slate-700 p-3 pl-10" type="text">
 
 			</div>
-			<!-- <div v-if="conversationStore.searchedUsers?.length > 0" class="mt-3 border-y-2 border-y-slate-600 py-3">
-				<span class="text-slate-500 mb-2 inline-block">Search result</span>
-				<User v-for="user in conversationStore.searchedUsers" :key="user.id" :conv="{ partner: user }"
-					@click="goToChatFromSearch(user.id)"></User>
-			</div> -->
 		</div>
-		<div v-if="!authStore.isLoading" class="main">
+		<div v-if="!authStore.isLoading" class="main flex-grow">
 			<User v-for="conv in authStore.conversations" :key="conv?.id" :conv="conv"
 				:online="checkOnline(conv.partner.id)" />
+		</div>
+		<div class="footer p-3">
+			<button type="submit" @click="logout" class="bg-slate-900 py-3 px-5 rounded-md">Log out</button>
 		</div>
 	</div>
 </template>
@@ -36,14 +34,21 @@ import Avatar from '@/components/UI/Avatar.vue'
 import User from './User.vue';
 import { useAuthStore } from '@/stores/auth.store';
 import { useConversationStore } from '@/stores/conversation.store';
-import router from '@/router';
 import { computed, ref, watch } from 'vue';
 import { useSocketStore } from '@/stores/socket.store';
+import { useRouter } from 'vue-router';
 const conversationStore = useConversationStore()
 const authStore = useAuthStore()
+const router = useRouter()
 const socketStore = useSocketStore()
 const checkOnline = (id: number) => {
 	return socketStore.onlineUsers.includes(id)
+}
+
+const logout = () => {
+	authStore.logout().then(res => {
+		router.replace('/login')
+	})
 }
 </script>
 
@@ -57,6 +62,8 @@ const checkOnline = (id: number) => {
 	top: 0;
 	color: white;
 	z-index: 99;
+	display: flex;
+	flex-direction: column;
 
 	.top {
 		padding: 0 15px;

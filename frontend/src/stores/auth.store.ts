@@ -69,6 +69,7 @@ export const useAuthStore = defineStore("auth", () => {
                isLoading.value = false;
                user.value = null;
                isLogged.value = false;
+               resolve(true);
             })
             .catch((error) => {
                isLoading.value = false;

@@ -63,7 +63,6 @@ io.on("connection", (socket) => {
 
    //take user and socketId
    socket.on("addUser", (id) => {
-      console.log(id, socket.id);
       addUser({
          userId: id,
          socketId: socket.id,
@@ -73,11 +72,8 @@ io.on("connection", (socket) => {
 
    //send and get message
    socket.on("sendMessage", (data) => {
-      console.log(data);
       data.receivers.forEach((receiverId: number) => {
-         console.log(onlineUsers, receiverId);
          const receiver = findUser(receiverId);
-         console.log(receiver);
          if (receiver) {
             io.to(receiver.socketId).emit("getMessage", {
                senderId: data.senderId,

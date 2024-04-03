@@ -1,8 +1,8 @@
 <template>
-	<div v-if="!conversationStore.isLoading" class="home relative bg-slate-900 flex flex-col justify-between">
+	<div class="home relative bg-slate-900 flex flex-col justify-between">
 		<div
 			class="header bg-slate-800 fixed w-full right-0 top-0 p-4 border-b-2 border-slate-700 flex justify-between items-center">
-			<div class="flex items-center px-3">
+			<div v-if="!conversationStore.isLoading" class="flex items-center px-3">
 				<Avatar class="w-[50px] h-[50px]" :online="checkOnline(conversationStore.chatWith.id)" />
 				<div class="flex flex-col gap-1 px-3">
 					<span class="text-xl">{{ conversationStore.chatWith.name }}</span>
@@ -12,11 +12,11 @@
 
 			</div>
 		</div>
-		<div class="chat flex-grow" ref="chat">
+		<div v-if="!conversationStore.isLoading" class="chat flex-grow" ref="chat">
 			<Message v-for="(message, index) in conversationStore.messages" :key="index" :message="message"
 				:own="message.sender.id === authStore.user.id" />
 		</div>
-		<MessageForm :receivers="[conversationStore.chatWith.id]" />
+		<MessageForm v-if="!conversationStore.isLoading" :receivers="[conversationStore.chatWith.id]" />
 	</div>
 </template>
 

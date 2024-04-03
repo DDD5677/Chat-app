@@ -8,7 +8,9 @@
 			<input placeholder="Password" class="bg-slate-800 focus:outline-none py-3 px-4 pr-10 w-full rounded"
 				type="password" v-model="password">
 			<button type="submit" class="px-6 py-3 bg-slate-900 hover:bg-slate-950 rounded mt-5">Sign In</button>
-			<RouterLink :to="{ name: 'register' }">Register</RouterLink>
+			<RouterLink :to="{ name: 'register' }" class="text-center hover:text-slate-300">If you don't have an accaunt
+				please Register
+			</RouterLink>
 		</form>
 	</div>
 </template>
