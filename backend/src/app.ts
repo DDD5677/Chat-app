@@ -4,7 +4,6 @@ import { Server } from "socket.io";
 import cors from "cors";
 import morgan from "morgan";
 import cookieParser from "cookie-parser";
-import authJwt from "./helpers/jwt";
 import errorHandler from "./helpers/error-handler";
 import userRouter from "./routes/user.routes";
 import authRouter from "./routes/auth.routes";
@@ -31,7 +30,6 @@ app.use(
 app.options("*", cors());
 app.use(cookieParser());
 app.use(morgan("tiny"));
-//app.use(authJwt());
 
 //routes
 app.use(`${api}/users`, userRouter);
@@ -47,11 +45,9 @@ let onlineUsers: any = [];
 const addUser = (user: any) => {
    !onlineUsers.some((u: any) => user.userId === u.userId) &&
       onlineUsers.push(user);
-   console.log(onlineUsers);
 };
 const removeUser = (socketId: string) => {
    onlineUsers = onlineUsers.filter((u: any) => u.socketId !== socketId);
-   console.log(onlineUsers);
 };
 const findUser = (userId: number) => {
    return onlineUsers.find((user: any) => user.userId === userId);

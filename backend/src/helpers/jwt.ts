@@ -12,7 +12,6 @@ function authJwt() {
       algorithms: ["HS256"],
    }).unless({
       path: [
-         { url: /\/public(.*)/, methods: ["GET", "OPTIONS"] },
          `${api}/auth/login`,
          `${api}/auth/refresh`,
          `${api}/auth/register`,

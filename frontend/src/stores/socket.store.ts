@@ -11,19 +11,14 @@ export const useSocketStore = defineStore("socket", () => {
       process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
    const conversationStore = useConversationStore();
    const socket = io(URL);
-
    function addUser(id: number) {
       socket.emit("addUser", id);
-      // socket.on("connect", () => {
-      // });
    }
    function getOnlineUsers() {
       socket.on("getUsers", (users) => {
          console.log(users);
          onlineUsers.value = users.map((u: any) => u.userId);
       });
-      // socket.on("connect", () => {
-      // });
    }
    function sendMessage(data: any) {
       console.log("called sendMessage");
@@ -34,7 +29,9 @@ export const useSocketStore = defineStore("socket", () => {
       socket.on("getMessage", (data) => {
          arrivedMessage.value = {
             text: data.text,
-            sender: { id: data.senderId },
+            sender: {
+               id: data.senderId,
+            },
             createdAt: Date.now(),
          };
          conversationStore.setMessage(arrivedMessage.value);

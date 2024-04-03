@@ -38,7 +38,7 @@ const sendMessage = () => {
 		socketStore.sendMessage(data)
 		conversationStore.setMessage({
 			text: data.text,
-			sender: { id: data.senderId },
+			sender: { id: data.senderId, name: authStore.user.name },
 			createdAt: Date.now(),
 		})
 	})
